@@ -1,1 +1,1 @@
-python3 src/profiler/profile_details.py
+python3 src/executable/execute.py

@@ -1,0 +1,66 @@
+[
+  {
+    "function": "fast_function",
+    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
+    "line": 8,
+    "max_time": 0.003130999975837767,
+    "max_mem": 448,
+    "mem_not_freed": 1528,
+    "args": {},
+    "possible_memory_leak": null,
+    "max_time_ms": 3.131,
+    "max_mem_kb": 0.438,
+    "mem_not_freed_kb": 1.492
+  },
+  {
+    "function": "slow_function",
+    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
+    "line": 12,
+    "max_time": 0.10792604202288203,
+    "max_mem": 40312,
+    "mem_not_freed": 81704,
+    "args": {},
+    "possible_memory_leak": null,
+    "max_time_ms": 107.926,
+    "max_mem_kb": 39.367,
+    "mem_not_freed_kb": 79.789
+  },
+  {
+    "function": "leaky_function",
+    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
+    "line": 16,
+    "max_time": 0.002219999994849786,
+    "max_mem": 1004964,
+    "mem_not_freed": 1005532,
+    "args": {},
+    "possible_memory_leak": [
+      {
+        "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
+        "line": 17,
+        "size_kb": 981.41
+      }
+    ],
+    "max_time_ms": 2.22,
+    "max_mem_kb": 981.41,
+    "mem_not_freed_kb": 981.965
+  },
+  {
+    "function": "main",
+    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
+    "line": 24,
+    "max_time": 0.36917987497872673,
+    "max_mem": 1004964,
+    "mem_not_freed": 1124082,
+    "args": {},
+    "possible_memory_leak": [
+      {
+        "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
+        "line": 17,
+        "size_kb": 981.41
+      }
+    ],
+    "max_time_ms": 369.18,
+    "max_mem_kb": 981.41,
+    "mem_not_freed_kb": 1097.736
+  }
+]
