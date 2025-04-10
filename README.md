@@ -9,7 +9,8 @@ Detailed Reporting – Generates a JSON report with function names, memory usage
 Ignores Non-User Code – Only tracks files in your project, excluding system/internal calls.
 Supports Any Project Structure – Works with custom folder hierarchies using dynamic path resolution.
 
-**Setup Environment Variables**
+***Setup Environment Variables***
+
 Before running the profiler, make sure to set the following environment variables:
 
 export FILE_PATH="/absolute/path/to/your/python_script.py"
@@ -20,7 +21,8 @@ FILE_PATH: The absolute path to the Python script you want to profile.
 
 DIR_PATH: The absolute path to your project directory. This helps the profiler focus only on your application code and ignore system/internal Python calls.
 
-**Running the Profiler**
+***Running the Profiler***
+
 After setting the environment variables, simply run the profiler using the provided shell script:
 
 ./run_profiler.sh
