@@ -4,11 +4,12 @@ import runpy
 import os
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
+from src.config.config import file_path,dir_path
 from src.profiler.profile_details import Profiler
 
 def run_with_profiler(filepath, leak_threshold_kb=100):
     filepath = Path(filepath).resolve()
-    profiler = Profiler(filepath.parent, leak_threshold_kb=leak_threshold_kb)
+    profiler = Profiler(dir_path, leak_threshold_kb=leak_threshold_kb)
 
     sys.setprofile(profiler.profile_func)
     try:
@@ -23,4 +24,4 @@ if __name__ == "__main__":
     # if len(sys.argv) != 2:
     #     print("Usage: python runner.py <script_path>")
     #     sys.exit(1)
-    run_with_profiler("/Users/nikhil/code/profiler/test_mem.py")
+    run_with_profiler(file_path)
