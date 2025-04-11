@@ -13,9 +13,9 @@ Supports Any Project Structure – Works with custom folder hierarchies using dy
 
 Before running the profiler, make sure to set the following environment variables:
 
-export FILE_PATH="/absolute/path/to/your/python_script.py"
+export PROFILER_FILE_PATH="/absolute/path/to/your/python_script.py"
 
-export DIR_PATH="/absolute/path/to/your/project/root"
+export PROFILER_DIR_PATH=="/absolute/path/to/your/project/root"
 
 FILE_PATH: The absolute path to the Python script you want to profile.
 
