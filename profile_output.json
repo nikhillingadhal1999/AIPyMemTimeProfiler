@@ -1,66 +1,38 @@
 [
   {
-    "function": "fast_function",
-    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
-    "line": 8,
-    "max_time": 0.003130999975837767,
-    "max_mem": 448,
-    "mem_not_freed": 1528,
+    "function": "leaky_func",
+    "file": "/Users/nikhil/code/PyMemTimeProfiler/my_private_project/inside/test_mem.py",
+    "line": 31,
+    "max_time": 0.19180504197720438,
+    "cpu_time": 0.188932,
+    "max_mem": 40440504,
+    "mem_growth_rss": 0,
     "args": {},
     "possible_memory_leak": null,
-    "max_time_ms": 3.131,
-    "max_mem_kb": 0.438,
-    "mem_not_freed_kb": 1.492
-  },
-  {
-    "function": "slow_function",
-    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
-    "line": 12,
-    "max_time": 0.10792604202288203,
-    "max_mem": 40312,
-    "mem_not_freed": 81704,
-    "args": {},
-    "possible_memory_leak": null,
-    "max_time_ms": 107.926,
-    "max_mem_kb": 39.367,
-    "mem_not_freed_kb": 79.789
-  },
-  {
-    "function": "leaky_function",
-    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
-    "line": 16,
-    "max_time": 0.002219999994849786,
-    "max_mem": 1004964,
-    "mem_not_freed": 1005532,
-    "args": {},
-    "possible_memory_leak": [
-      {
-        "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
-        "line": 17,
-        "size_kb": 981.41
-      }
+    "note": [
+      "Obj return size is huge. Please check."
     ],
-    "max_time_ms": 2.22,
-    "max_mem_kb": 981.41,
-    "mem_not_freed_kb": 981.965
+    "max_time_ms": 191.805,
+    "cpu_time_ms": 188.932,
+    "max_mem_kb": 39492.68,
+    "mem_growth_rss_kb": 112704.0,
+    "returned_size": 40448728
   },
   {
     "function": "main",
-    "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
-    "line": 24,
-    "max_time": 0.36917987497872673,
-    "max_mem": 1004964,
-    "mem_not_freed": 1124082,
+    "file": "test_mem.py",
+    "line": 35,
+    "max_time": 6.021418125019409,
+    "cpu_time": 5.669371000000001,
+    "max_mem": 2725,
+    "mem_growth_rss": 0,
     "args": {},
-    "possible_memory_leak": [
-      {
-        "file": "/Users/nikhil/code/profiler/my_private_project/inside/test_mem.py",
-        "line": 17,
-        "size_kb": 981.41
-      }
-    ],
-    "max_time_ms": 369.18,
-    "max_mem_kb": 981.41,
-    "mem_not_freed_kb": 1097.736
+    "possible_memory_leak": null,
+    "note": [],
+    "max_time_ms": 6021.418,
+    "cpu_time_ms": 5669.371,
+    "max_mem_kb": 2.661,
+    "mem_growth_rss_kb": 141056.0,
+    "returned_size": 16
   }
 ]
