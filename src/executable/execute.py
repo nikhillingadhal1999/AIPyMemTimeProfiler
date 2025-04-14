@@ -7,8 +7,12 @@ sys.path.insert(0, ROOT_DIR)
 from src.config.config import file_path,dir_path,console_display
 from src.profiler.profile_details import Profiler
 
-def run_with_profiler(filepath, leak_threshold_kb=100):
+def run_with_profiler(filepath,console_display,leak_threshold_kb=100):
     filepath = Path(filepath).resolve()
+    if console_display == 'False':
+        console_display = False
+    else:
+        console_display = True
     profiler = Profiler(dir_path,console_display,leak_threshold_kb=leak_threshold_kb)
     
     prev_cwd = os.getcwd()
@@ -24,4 +28,4 @@ def run_with_profiler(filepath, leak_threshold_kb=100):
         profiler.write_output()
 
 if __name__ == "__main__":
-    run_with_profiler(file_path)
+    run_with_profiler(file_path,console_display)
