@@ -47,11 +47,14 @@ Before running the profiler, make sure to set the following environment variable
 
 * ```export PROFILER_FILE_PATH="/absolute/path/to/your/python_script.py"```
 * ```export PROFILER_DIR_PATH=="/absolute/path/to/your/project/root"```
+* If you already have an env, No need to create one, install the requirements in that env by giving the path of this requirements.txt
+* If you don't have env to run create the env, activate it, install the requirements and run as shown below
 * ```python3 -m venv env```
+* ```source env/bin/activate```
 * ```pip3 install -r requirements.txt```
 
 * The console is True by default. If you don't want the table to be printed on console, please create an env variable and assign the value false
-* ````export CONSOLE_DISPLAY=False```
+* ```export CONSOLE_DISPLAY=False```
 
 * FILE_PATH: The absolute path to the Python script you want to profile.
 
