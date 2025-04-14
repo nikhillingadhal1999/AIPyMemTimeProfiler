@@ -47,7 +47,7 @@ Before running the profiler, make sure to set the following environment variable
 
 * ```export PROFILER_FILE_PATH="/absolute/path/to/your/python_script.py"```
 * ```export PROFILER_DIR_PATH=="/absolute/path/to/your/project/root"```
-* ```python3 install -m venv env```
+* ```python3 -m venv env```
 * ```pip3 install -r requirements.txt```
 
 * FILE_PATH: The absolute path to the Python script you want to profile.
