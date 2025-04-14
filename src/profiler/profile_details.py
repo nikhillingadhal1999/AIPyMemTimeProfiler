@@ -10,6 +10,9 @@ import psutil
 import io
 from line_profiler import LineProfiler
 import re
+from rich import print
+from rich.console import Console
+from rich.table import Table
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
@@ -17,12 +20,13 @@ from src.helpers.helper import check_event, check_external_functions, get_all_ar
 from src.config.config import file_path, dir_path
 
 class Profiler:
-    def __init__(self, root_path, leak_threshold_kb=3000):
+    def __init__(self, root_path,console_display=True, leak_threshold_kb=3000):
         self.root_path = Path(root_path).resolve()
         self.records = {}
         self.call_stack = {}
         self.leak_threshold_kb = leak_threshold_kb
         self.proc = psutil.Process(os.getpid())
+        self.console_display = console_display
         tracemalloc.start()
 
         self.line_profiler = LineProfiler()
@@ -37,7 +41,7 @@ class Profiler:
         code = frame.f_code
         func_name = code.co_name
 
-        if check_external_functions(func_name):
+        if check_external_functions(func_name,code.co_filename):
             return self.profile_func
 
         if not is_user_code(frame, self.root_path):
@@ -46,11 +50,10 @@ class Profiler:
         key = (func_name, code.co_filename, frame.f_lineno)
 
         if event == "call":
-            time.sleep(0.2)
-            print("Clearing mem...")
             gc.collect()
 
             all_args = get_all_args(frame)
+            key = (func_name, code.co_filename, frame.f_lineno,' '.join(all_args.keys()))
             cpu_start = time.process_time()
             wall_start = time.perf_counter()
             start_snapshot = tracemalloc.take_snapshot()
@@ -67,6 +70,8 @@ class Profiler:
             print(f"[CALL] {func_name} at {code.co_filename}")
 
         elif event == "return" and frame in self.call_stack:
+            all_args = get_all_args(frame)
+            key = (func_name, code.co_filename, frame.f_lineno,' '.join(all_args.keys()))
             code_obj = frame.f_code
 
             if self.enable_line_profiling and code_obj not in self.line_profiled_functions:
@@ -82,9 +87,6 @@ class Profiler:
 
             duration = end_time - call_info["start_time"]
             cpu_time = end_cpu - call_info["start_cpu"]
-
-            time.sleep(0.02)
-            print("Clearing mem...")
             gc.collect()
             end_snapshot = tracemalloc.take_snapshot()
             memory_diff = end_snapshot.compare_to(call_info["start_snapshot"], "lineno")
@@ -132,4 +134,31 @@ class Profiler:
         output = list(self.records.values())
         with open(output_file, "w") as f:
             json.dump(output, f, indent=2)
-        print(f"\n Profile results written to {output_file}")
+        if self.console_display:
+            print(f"\n[bold green]✅ Profile results written to[/bold green] [cyan]{output_file}[/cyan]")
+            console = Console()
+            console.rule("[bold yellow]📊 Profiling Summary[/bold yellow]")
+            table = Table(show_header=True, header_style="bold magenta", title="Function Profile Overview")
+            table.add_column("Function", style="bold cyan")
+            table.add_column("Time (ms)", justify="right")
+            table.add_column("CPU Time (ms)", justify="right")
+            table.add_column("Mem (KB)", justify="right")
+            table.add_column("Growth (KB)", justify="right")
+            table.add_column("Note")
+
+            for record in output:
+                note_lines = record.get("note", [])
+                if note_lines:
+                    note_str = "[bold red]🔴 " + "[/bold red][bright_red]" + "\n      ".join(note_lines) + "[/bright_red]"
+                else:
+                    note_str = "-"
+                table.add_row(
+                    record["function"],
+                    f"{record['max_time_ms']:.2f}",
+                    f"{record['cpu_time_ms']:.2f}",
+                    f"{record['max_mem_kb']:.2f}",
+                    f"{record['mem_growth_rss_kb']:.2f}",
+                    note_str
+                )
+
+            console.print(table)

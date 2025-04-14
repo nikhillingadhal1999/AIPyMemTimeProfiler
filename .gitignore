@@ -1,2 +1,23 @@
-.env
-.env*
+env/
+venv/
+
+# Ignore .gitignore itself (if needed — but generally you want to keep this in Git)
+# To ignore this file itself (not typical), uncomment the next line:
+# .gitignore
+
+# Bytecode and cache
+**/__pycache__/
+# Other ignores
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Output files
+*.log
+*.json
+profile_output.json
