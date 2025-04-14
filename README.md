@@ -9,7 +9,7 @@ Debugging performance issues in Python shouldn't be a chore. This lightweight pr
 
 * **Time & Memory Metrics**
 
-    Automatically captures the maximum execution time (wall & CPU) and peak memory usage for each function, including RSS memory growth.
+    Automatically captures the maximum execution time (CPU) and peak memory usage for each function, including RSS memory growth.
 
 * **Project-Aware Analysis**
 
