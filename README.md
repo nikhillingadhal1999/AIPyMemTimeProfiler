@@ -50,6 +50,9 @@ Before running the profiler, make sure to set the following environment variable
 * ```python3 -m venv env```
 * ```pip3 install -r requirements.txt```
 
+* The console is True by default. If you don't want the table to be printed on console, please create an env variable and assign the value false
+* ```CONSOLE_DISPLAY=False```
+
 * FILE_PATH: The absolute path to the Python script you want to profile.
 
 * DIR_PATH: The absolute path to your project directory. This helps the profiler focus only on your application code and ignore system/internal Python calls.
