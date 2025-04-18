@@ -1,5 +1,9 @@
 # PyMemTimeProfiler
-Zero-Hassle Python Profiler for Time & Memory — No Code Changes Needed
+Zero-Hassle Python Profiler for Time & Memory — No Code Changes Needed. 
+It supports : 
+* python file projects
+* **Flask** projects
+
 Debugging performance issues in Python shouldn't be a chore. This lightweight profiler tracks function-level memory usage and execution time across your codebase — no decorators, no annotations, and no code changes required. Perfect for debugging performance issues real-time. 
 
 ***Features***
