@@ -1,72 +1,129 @@
-# PyMemTimeProfiler
-Zero-Hassle Python Profiler for Time & Memory. No Code Changes Needed. 
-It supports : 
-* python file projects
-* **Flask** projects
+# Zero-Hassle Python Profiler for Time & Memory
 
-Debugging performance issues in Python shouldn't be a chore. This lightweight profiler tracks function-level memory usage and execution time across your codebase, no decorators, no annotations, and no code changes required. Perfect for debugging performance issues real-time. 
+A lightweight, zero-configuration profiler that captures function-level performance metrics with **no code changes**. Ideal for:
 
-***Features***
-* **Zero Code Changes**
+- Python scripts  
+- Flask projects  
+- Real-time debugging of performance bottlenecks  
 
-    Just run your Python script. no need to decorate or modify functions.
+---
 
-* **Time & Memory Metrics**
+## Features
 
-    Automatically captures the maximum execution time (CPU) and peak memory usage for each function, including RSS memory growth.
+### Zero Code Changes
+Just run your Python script — no decorators, annotations, or modifications needed.
 
-* **Project-Aware Analysis**
+### Time & Memory Metrics
+Automatically captures:
+- Max execution time (CPU)
+- Peak memory usage
+- RSS memory growth
+- Return object size
+- Arguments passed
 
-    Only your application code is profiled. system libraries and external modules are automatically ignored using project path detection.
+### Project-Aware Analysis
+Only **your** code is profiled.  
+System libraries and external modules are ignored using intelligent project-path detection.
 
-* **Structured JSON Reports**
+## Profiler Metrics
 
-    Detailed per-function stats: function name, file, line number, time (ms), memory usage (KB), return object size and arguments. 
+The following table describes the metrics collected by the profiler:
 
-* **Execution Time Tracking**
-
-    Records max time taken by each function.
-
-* **Works with Any Project Structure**
-
-    Handles arbitrary folder hierarchies. just point to your project root.
-
-***What You'll Get***
-
-* Execution time tracking (ms)
-
-* Peak memory usage (KB)
-
-* Returned object size (bytes)
-
-* Growth in RSS memory (KB)
-
-* Function-level granularity
+| **Metric**               | **Description**                                                                                   | **Key**                           |
+|--------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------|
+| **Function Name**         | The name of the function being profiled.                                                          | `function`                        |
+| **File Path**             | The absolute path to the file where the function is defined.                                      | `file`                            |
+| **Line Number**           | The line number where the function starts in the file.                                            | `line`                            |
+| **Execution Time**        | Maximum time taken by each function in milliseconds (ms).                                         | `max_time_ms`                     |
+| **CPU Time**              | Time spent by the CPU on this function (ms).                                                      | `cpu_time_ms`                     |
+| **Peak Memory Usage**     | Maximum memory usage during function execution in kilobytes (KB).                                 | `max_mem`                         |
+| **RSS Memory Growth**     | Growth in Resident Set Size (RSS) memory in kilobytes (KB), helps spot memory leaks.              | `mem_growth_rss_kb`               |
+| **Arguments**             | The arguments passed to the function being profiled.                                              | `args`                            |
+| **Possible Memory Leak**  | Indicates if a potential memory leak is detected (if any).                                        | `possible_memory_leak`            |
+| **Notes**                 | Any additional notes related to the profiling data.                                               | `note`                            |
+| **Returned Object Size**  | The size of the returned object in bytes.                                                         | `return_obj`                      |
 
 
 
-***Setup Environment Variables***
+### Structured JSON Reports
+Each function includes:
+- Function name
+- Source file and line number
+- Time (ms)
+- Memory usage (KB)
+- Return object size
+- Arguments
+- Memory growth & potential leaks
 
-Before running the profiler, make sure to set the following environment variables:
+### Works with Any Project Structure
+Handles **nested folder hierarchies** easily — just point to your project root and go.
 
-* ```export PROFILER_FILE_PATH="/absolute/path/to/your/python_script.py"```
-* ```export PROFILER_DIR_PATH=="/absolute/path/to/your/project/root"```
-* If you already have an env, No need to create one, install the requirements in that env by giving the path of this requirements.txt
-* If you don't have env to run create the env, activate it, install the requirements and run as shown below
-* ```python3 -m venv env```
-* ```source env/bin/activate```
-* ```pip3 install -r requirements.txt```
+---
 
-* The console is True by default. If you don't want the table to be printed on console, please create an env variable and assign the value false
-* ```export CONSOLE_DISPLAY=False```
+## Setup Instructions
 
-* FILE_PATH: The absolute path to the Python script you want to profile.
+### 1. Set Environment Variables
 
-* DIR_PATH: The absolute path to your project directory. This helps the profiler focus only on your application code and ignore system/internal Python calls.
+```bash
+export PROFILER_FILE_PATH="/absolute/path/to/your_script.py"
+export PROFILER_DIR_PATH="/absolute/path/to/your/project/root"
+```
 
-***Running the Profiler***
+> `PROFILER_FILE_PATH`: The Python file to be profiled  
+> `PROFILER_DIR_PATH`: Root of your project for accurate filtering
 
-  After setting the environment variables, simply run the profiler using the provided shell script:
+### 2. Optional: Suppress Console Output
 
-* ```./run_profiler.sh```
-  This script reads the environment variables FILE_PATH and DIR_PATH, launches your script, and records the memory and execution time statistics for each function without requiring any code changes or decorators.
+By default, profiler prints a table to the console. To disable:
+
+```bash
+export CONSOLE_DISPLAY=False
+```
+## Environment Setup
+
+If you **already have a virtual environment**, just install the dependencies:
+
+```bash
+make setup
+```
+
+This will install the requirements in your env
+
+If you **don't have a virtual environment**, just install the dependencies:
+
+```bash
+make setup
+```
+
+This will create an env and install requirements
+
+## Run profiler
+
+```bash
+make run
+```
+
+
+This will:
+- Read the env vars
+- Launch your script
+- Record memory + execution stats
+- Save detailed JSON report
+
+---
+
+## Supported Use Cases
+
+- Pure Python projects
+- Flask APIs and apps
+- Any directory layout
+
+---
+
+## Want More?
+
+- [ ] Console table toggle
+- [ ] HTML report output
+- [ ] Jupyter Notebook integration
+
+Pull requests are welcome!
