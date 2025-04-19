@@ -1,6 +1,6 @@
 # Zero-Hassle Python Profiler for Time & Memory
 
-A lightweight, zero-configuration profiler that captures function-level performance metrics with **no code changes**. Ideal for:
+A lightweight, zero-configuration python profiler that captures function-level performance metrics with **no code changes**. Ideal for:
 
 - Python scripts  
 - Flask projects  
