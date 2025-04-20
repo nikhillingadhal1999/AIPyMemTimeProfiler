@@ -36,4 +36,4 @@ def main_mem():
     slow_function()
     read_file()
 
-# main_mem()
+main_mem()
