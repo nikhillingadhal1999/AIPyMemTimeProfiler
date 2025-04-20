@@ -113,6 +113,28 @@ make setup
 
 This will create an env and install requirements
 
+## LLM Environment Setup
+
+Download Ollama from 
+[Ollama](https://ollama.com/)
+
+```bash
+ollama run <yout_model>
+```
+If you don't know which model to use. 
+> `ollama run deepseek-r1:1.5b`: It is preferable as it is light weight. 
+
+Set your model env variable.
+```bash
+export AGENT_NAME="<your_model>"
+```
+
+```bash
+make agent-setup
+```
+
+To use 
+
 ## Run profiler
 
 ```bash
