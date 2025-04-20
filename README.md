@@ -1,6 +1,6 @@
-# Zero-Hassle Python Profiler for Time & Memory
+# Zero-Hassle AI Enabled Python Profiler for Time & Memory
 
-A lightweight, zero-configuration python profiler that captures function-level performance metrics with **no code changes**. Ideal for:
+AI enabled lightweight, zero-configuration python profiler that captures function-level performance metrics along with analysis of function implementation with AI Agent with **no code changes**. Ideal for:
 
 - Python scripts  
 - Flask projects  
@@ -43,6 +43,22 @@ The following table describes the metrics collected by the profiler:
 | **Notes**                 | Any additional notes related to the profiling data.                                               | `note`                            |
 | **Returned Object Size**  | The size of the returned object in bytes.                                                         | `return_obj`                      |
 
+
+Option to select a function for analysis, which is analysed by the Ollama model installed and configured.
+This is the table providing the options for analysis.
+
+### Available Functions for Analysis
+
+| **Index** | **Function Name**     | **File Path**                    |
+|-----------|------------------------|----------------------------------|
+| 0         | `function_one`         | `/path/to/file_one.py`          |
+| 1         | `function_two`         | `/path/to/file_two.py`          |
+| 2         | `function_three`       | `/path/to/file_three.py`        |
+| 3         | `function_four`        | `/path/to/file_four.py`         |
+| 4         | `function_five`        | `/path/to/file_five.py`         |
+| ...       | ...                    | ...                              |
+| N         | `function_n`           | `/path/to/file_n.py`            |
+| N+1       | `Skip Analysis`        | `-`                              |
 
 
 ### Structured JSON Reports
