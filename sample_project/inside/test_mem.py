@@ -18,14 +18,15 @@ def pretty_print_message():
     console.rule("[bold blue]Profiler End[/bold blue]")
 
 def leaky_func():
-    big_data = [x for x in range(10**6)]  # ~8MB if ints
-    return big_data
+    big_data = [x for x in range(10**6)]
+    word = "hi"
+    return word
 
 def read_file():
     with open('test.txt') as f:
         print(f.readlines())
 
-def main():
+def main_mem():
     leaky_func()
     pretty_print_message()
     fast_function()
@@ -35,5 +36,4 @@ def main():
     slow_function()
     read_file()
 
-
-main()
+# main_mem()

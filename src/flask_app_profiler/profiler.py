@@ -13,12 +13,43 @@ from rich.table import Table
 import json
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
+from src.config.config import agentic_profiler
+from src.analyser.performance_analyser import collect_profiling_data,analyse_performance
 from src.helpers.helper import check_external_functions,get_all_args
 process = psutil.Process(os.getpid())
 
+def display_functions_and_select(functions_with_files):
+    console = Console()
+    table = Table(title="Available Functions for Analysis")
+
+    table.add_column("Index", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Function Name", style="magenta")
+    table.add_column("File Path", style="green")
+
+    for idx, (func_name, file_path) in enumerate(functions_with_files):
+        table.add_row(str(idx), func_name, file_path)
+
+    # Add the "Skip Analysis" option
+    skip_index = len(functions_with_files)
+    table.add_row(str(skip_index), "[bold yellow]Skip Analysis[/bold yellow]", "-")
+
+    console.print(table)
+
+    while True:
+        try:
+            selected_index = int(console.input("[bold blue]Enter the index of the function you want to analyze (or skip):[/bold blue] "))
+            if 0 <= selected_index < len(functions_with_files):
+                return functions_with_files[selected_index]
+            elif selected_index == skip_index:
+                console.print("[bold yellow]Skipping analysis.[/bold yellow]")
+                return None
+            else:
+                console.print("[red]Invalid index. Try again.[/red]")
+        except ValueError:
+            console.print("[red]Please enter a valid number.[/red]")
 
 class flask_profiler:
-    def __init__(self,console_display= False):
+    def __init__(self,console_display= True):
         self.records = {}
         self.console_display = console_display
 
@@ -86,12 +117,7 @@ class flask_profiler:
                     record["mem_growth_rss_kb"] = round(mem_growth / 1024, 2)
                     record["returned_size"] = returned_size
                     record["possible_memory_leak"]= None
-                    record["note"]= (
-                                ["Obj return size is huge. Please check."]
-                                if returned_size > 10 * 1024 * 1024
-                                else []
-                            ),
-                    record["global_variables"]= used_globals
+                    record["note"]= ["Obj return size is huge. Please check."] if returned_size > 10 * 1024 * 1024 else []
                     self.records[key] = record
             elif event == "call":
                 frame.f_locals["__start_time__"] = time.perf_counter()
@@ -159,4 +185,34 @@ class flask_profiler:
         with open(output_file, "w") as f:
             json.dump(cleaned_records, f, indent=2)
 
+        output = cleaned_records
+
         print(f" Wrote {len(cleaned_records)} records to {output_file}")
+        if self.console_display:
+            print(f"\n[bold green]✅ Profile results written to[/bold green] [cyan]{output_file}[/cyan]")
+            console = Console()
+            console.rule("[bold yellow]📊 Profiling Summary[/bold yellow]")
+            table = Table(show_header=True, header_style="bold magenta", title="Function Profile Overview")
+            table.add_column("Function", style="bold cyan")
+            table.add_column("Time (ms)", justify="right")
+            table.add_column("CPU Time (ms)", justify="right")
+            table.add_column("Growth (KB)", justify="right")
+            table.add_column("Note")
+
+            for record in output:
+                print(record)
+                note_lines = record.get("note", [])
+                if note_lines:
+                    print(note_lines)
+                    note_str = "[bold red]🔴 " + "[/bold red][bright_red]" + "\n      ".join(note_lines) + "[/bright_red]"
+                else:
+                    note_str = "-"
+                table.add_row(
+                    record["function"],
+                    f"{record['max_time_ms']:.2f}",
+                    f"{record['cpu_time_ms']:.2f}",
+                    f"{record['mem_growth_rss_kb']:.2f}",
+                    note_str
+                )
+
+            console.print(table)

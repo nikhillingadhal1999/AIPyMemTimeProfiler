@@ -1,7 +1,7 @@
 # Define the environment variables
 ENV_NAME = env
 REQUIREMENTS_FILE = $(shell pwd)/requirements.txt
-
+AGENT_REQUIREMENTS_FILE = $(shell pwd)/agent_requirements.txt
 
 # Define the current working directory and executable path
 CURRENT_DIR := $(shell pwd)
@@ -14,6 +14,14 @@ setup:
 	fi
 	@echo "Installing dependencies into virtual environment..."
 	@source $(ENV_NAME)/bin/activate && pip install -r $(REQUIREMENTS_FILE)
+
+agent-setup:
+	@if [ ! -d "$(ENV_NAME)" ]; then \
+		python3 -m venv $(ENV_NAME); \
+		echo "Virtual environment created."; \
+	fi
+	@echo "Installing agent dependencies into virtual environment..."
+	@source $(ENV_NAME)/bin/activate && pip install -r $(AGENT_REQUIREMENTS_FILE)
 
 run:
 	@echo "Checking if PROFILER_FILE_PATH and PROFILER_DIR_PATH environment variables are set..."
