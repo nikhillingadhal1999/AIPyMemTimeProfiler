@@ -108,6 +108,7 @@ class Profiler:
                     "cpu_time": 0,
                     "max_mem": 0,
                     "mem_growth_rss": 0,
+                    "mem_growth": 0,
                     "args": call_info["args"],
                     "possible_memory_leak": None,
                     "note": []
@@ -120,6 +121,7 @@ class Profiler:
             record["max_time_ms"] = round(record["max_time"] * 1000, 3)
             record["cpu_time_ms"] = round(record["cpu_time"] * 1000, 3)
             record["max_mem_kb"] = round(record["max_mem"] / 1024, 3)
+            record["mem_growth_rss"] = mem_growth
             record["mem_growth_rss_kb"] = round(mem_growth / 1024, 3)
             record["returned_size"] = returned_size
 
@@ -142,7 +144,6 @@ class Profiler:
             table.add_column("Function", style="bold cyan")
             table.add_column("Time (ms)", justify="right")
             table.add_column("CPU Time (ms)", justify="right")
-            table.add_column("Mem (KB)", justify="right")
             table.add_column("Growth (KB)", justify="right")
             table.add_column("Note")
 
@@ -156,7 +157,6 @@ class Profiler:
                     record["function"],
                     f"{record['max_time_ms']:.2f}",
                     f"{record['cpu_time_ms']:.2f}",
-                    f"{record['max_mem_kb']:.2f}",
                     f"{record['mem_growth_rss_kb']:.2f}",
                     note_str
                 )

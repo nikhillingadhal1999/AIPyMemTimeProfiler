@@ -22,3 +22,4 @@ venv/
 *.json
 profile_output.json
 **/.DS_Store
+**test.py

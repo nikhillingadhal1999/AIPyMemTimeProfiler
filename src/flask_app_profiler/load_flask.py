@@ -9,8 +9,9 @@ from flask import Flask
 from memory_profiler import memory_usage
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
-from src.flask_app_profiler.profiler import flask_profiler
-from src.config.config import file_path, dir_path
+from src.flask_app_profiler.profiler import flask_profiler,display_functions_and_select
+from src.config.config import agentic_profiler
+from src.analyser.performance_analyser import collect_profiling_data,analyse_performance
 
 def load_flask_app(app_path):
     try:
@@ -53,6 +54,7 @@ def wrap_function(func, dir_path):
             sys.settrace(profiler.trace_calls)
             mem_used, result = memory_usage((func, args, kwargs), retval=True, max_usage=True, interval=0.01)  # type: ignore
             sys.settrace(None)
+            os.chdir(prev_dir)
             profiler.write_output()
         finally:
             os.chdir(prev_dir)
