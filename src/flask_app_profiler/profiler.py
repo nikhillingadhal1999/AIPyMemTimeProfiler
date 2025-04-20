@@ -89,7 +89,7 @@ class flask_profiler:
 
                     duration = end_time - start_time
                     cpu_time = end_cpu - start_cpu
-                    mem_growth = end_mem - start_mem
+                    mem_growth = max(0.00,end_mem - start_mem)
                     returned_size = sys.getsizeof(arg)
                     record = self.records.get(
                         key,
