@@ -1,6 +1,6 @@
 # Zero-Hassle AI Enabled Python Profiler for Time & Memory
 
-AI enabled lightweight, zero-configuration python profiler that captures function-level performance metrics along with analysis of function implementation with AI Agent with **no code changes**. Ideal for:
+AI enabled lightweight time and memory profiler for Python, zero-configuration python profiler that captures function-level performance metrics along with analysis of function implementation with AI Agent with **no code changes**. Ideal for:
 
 - Python scripts  
 - Flask projects  
