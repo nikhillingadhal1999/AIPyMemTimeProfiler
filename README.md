@@ -127,6 +127,7 @@ If you don't know which model to use.
 Set your model env variable.
 ```bash
 export AGENT_NAME="<your_model>"
+export AGENTIC_PROFILER=True
 ```
 
 ```bash
