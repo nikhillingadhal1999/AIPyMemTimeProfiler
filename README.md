@@ -85,8 +85,8 @@ export PROFILER_FILE_PATH="/absolute/path/to/your_script.py"
 export PROFILER_DIR_PATH="/absolute/path/to/your/project/root"
 ```
 If you just want to try, you can test it with sample_project. 
-> `PROFILER_FILE_PATH="$(pwd)/sample_project/inside/app.py"`: The Python file to be profiled  
-> `PROFILER_DIR_PATH="$(pwd)/sample_project/inside"`: Root of your project for accurate filtering
+> `export PROFILER_FILE_PATH="$(pwd)/sample_project/inside/app.py"`: The Python file to be profiled  
+> `export PROFILER_DIR_PATH="$(pwd)/sample_project/inside"`: Root of your project for accurate filtering
 
 ### 2. Optional: Suppress Console Output
 
