@@ -4,3 +4,4 @@ Pympler==1.1
 rich
 Flask
 memory_profiler
+ollama
