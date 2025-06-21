@@ -13,9 +13,9 @@ from rich.table import Table
 import json
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
-from src.config.config import agentic_profiler
+from src.config.config import agentic_profiler,INCLUDE_LIBRARIES
 from src.analyser.performance_analyser import collect_profiling_data,analyse_performance
-from src.helpers.helper import check_external_functions,get_all_args
+from src.helpers.helper import check_external_functions,get_all_args,check_external_lib,get_package
 process = psutil.Process(os.getpid())
 
 def display_functions_and_select(functions_with_files):
@@ -71,6 +71,11 @@ class flask_profiler:
             return
         if check_external_functions(func_name,code.co_filename):
             return
+        if check_external_functions(func_name,code.co_filename):
+            if INCLUDE_LIBRARIES and check_external_lib(code.co_filename):
+                external_lib = True
+            else:
+                return
 
         def local_trace(frame, event, arg,self=self):
             all_args = get_all_args(frame)
@@ -197,7 +202,8 @@ class flask_profiler:
             table.add_column("Time (ms)", justify="right")
             table.add_column("CPU Time (ms)", justify="right")
             table.add_column("Growth (KB)", justify="right")
-            table.add_column("Note")
+            table.add_column("Package", justify="right")
+            table.add_column("Note")            
 
             for record in output:
                 print(record)
@@ -207,12 +213,25 @@ class flask_profiler:
                     note_str = "[bold red]🔴 " + "[/bold red][bright_red]" + "\n      ".join(note_lines) + "[/bright_red]"
                 else:
                     note_str = "-"
-                table.add_row(
-                    record["function"],
-                    f"{record['max_time_ms']:.2f}",
-                    f"{record['cpu_time_ms']:.2f}",
-                    f"{record['mem_growth_rss_kb']:.2f}",
-                    note_str
-                )
+                if check_external_lib(record['file']):
+                    package = get_package(record['file'])
+                    table.add_row(
+                        record["function"],
+                        f"{record['max_time_ms']:.2f}",
+                        f"{record['cpu_time_ms']:.2f}",
+                        f"{record['mem_growth_rss_kb']:.2f}",
+                        package,
+                        note_str
+                    )
+                else:
+                    table.add_row(
+                        record["function"],
+                        f"{record['max_time_ms']:.2f}",
+                        f"{record['cpu_time_ms']:.2f}",
+                        f"{record['mem_growth_rss_kb']:.2f}",
+                        "user_code",
+                        note_str
+                    )
+
 
             console.print(table)

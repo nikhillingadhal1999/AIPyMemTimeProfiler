@@ -11,6 +11,11 @@ def check_external_functions(func_name,file_name):
         func_name.startswith("<") and func_name.endswith(">")
     ) or "<frozen importlib._bootstrap>" in file_name or "site-packages" in file_name or "lib/python" in file_name or (file_name.startswith("<") and file_name.endswith(">"))
 
+def check_external_lib(file_name):
+    return "site-packages" in file_name
+
+def get_package(file_name):
+    return file_name.split("site-packages")[1].split("/")[1]
 
 def get_all_args(frame):
     args_info = inspect.getargvalues(frame)
