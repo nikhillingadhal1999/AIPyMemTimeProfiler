@@ -4,4 +4,7 @@ Pympler==1.1
 rich
 Flask
 memory_profiler
+setuptools
+wheel
+twine
 ollama
