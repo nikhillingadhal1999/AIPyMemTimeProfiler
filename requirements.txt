@@ -7,3 +7,4 @@ memory_profiler
 setuptools
 wheel
 twine
+ollama
