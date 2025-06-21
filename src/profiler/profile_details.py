@@ -16,8 +16,8 @@ from rich.table import Table
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
-from src.helpers.helper import check_event, check_external_functions, get_all_args, is_user_code, detect_mem_leak
-from src.config.config import file_path, dir_path
+from src.helpers.helper import check_event, check_external_functions, get_all_args, is_user_code, detect_mem_leak,check_external_lib, get_package
+from src.config.config import file_path, dir_path,INCLUDE_LIBRARIES
 
 class Profiler:
     def __init__(self, root_path,console_display=True, leak_threshold_kb=3000):
@@ -27,6 +27,7 @@ class Profiler:
         self.leak_threshold_kb = leak_threshold_kb
         self.proc = psutil.Process(os.getpid())
         self.console_display = console_display
+        self.external_libraries = {}
         tracemalloc.start()
 
         self.line_profiler = LineProfiler()
@@ -35,6 +36,7 @@ class Profiler:
         self.enable_line_profiling = True
 
     def profile_func(self, frame, event, arg):
+        external_lib = False
         if check_event(event):
             return self.profile_func
 
@@ -42,10 +44,16 @@ class Profiler:
         func_name = code.co_name
 
         if check_external_functions(func_name,code.co_filename):
-            return self.profile_func
+            if INCLUDE_LIBRARIES and check_external_lib(code.co_filename):
+                external_lib = True
+            else:
+                return self.profile_func
+                
 
-        if not is_user_code(frame, self.root_path):
-            return self.profile_func
+
+
+        # if not is_user_code(frame, self.root_path):
+        #     return self.profile_func
 
         key = (func_name, code.co_filename, frame.f_lineno)
 
@@ -67,7 +75,7 @@ class Profiler:
                 "mem_start": mem_start
             }
 
-            print(f"[CALL] {func_name} at {code.co_filename}")
+            # print(f"[CALL] {func_name} at {code.co_filename}")
 
         elif event == "return" and frame in self.call_stack:
             all_args = get_all_args(frame)
@@ -122,20 +130,25 @@ class Profiler:
             record["cpu_time_ms"] = round(record["cpu_time"] * 1000, 3)
             record["max_mem_kb"] = round(record["max_mem"] / 1024, 3)
             record["mem_growth_rss"] = mem_growth
-            record["mem_growth_rss_kb"] = round(mem_growth / 1024, 3)
+            record["mem_growth_rss_kb"] = max(0,round(mem_growth / 1024, 3))
             record["returned_size"] = returned_size
 
             if (self.leak_threshold_kb * 1000) < returned_size:
                 record["note"].append("Obj return size is huge. Please check.")
 
-            self.records[key] = record
+            if external_lib:
+                self.external_libraries[key] = record
+            else:
+                self.records[key] = record
 
         return self.profile_func
 
     def write_output(self, output_file="profile_output.json"):
+
         output = list(self.records.values())
         with open(output_file, "w") as f:
             json.dump(output, f, indent=2)
+        
         if self.console_display:
             print(f"\n[bold green]✅ Profile results written to[/bold green] [cyan]{output_file}[/cyan]")
             console = Console()
@@ -144,8 +157,12 @@ class Profiler:
             table.add_column("Function", style="bold cyan")
             table.add_column("Time (ms)", justify="right")
             table.add_column("CPU Time (ms)", justify="right")
-            table.add_column("Growth (KB)", justify="right")
+            table.add_column("Memory Growth (KB)", justify="right")
+            table.add_column("Package", justify="right")
             table.add_column("Note")
+            
+            output = list(self.external_libraries.values())
+            output.extend(list(self.records.values()))
 
             for record in output:
                 note_lines = record.get("note", [])
@@ -153,12 +170,24 @@ class Profiler:
                     note_str = "[bold red]🔴 " + "[/bold red][bright_red]" + "\n      ".join(note_lines) + "[/bright_red]"
                 else:
                     note_str = "-"
-                table.add_row(
-                    record["function"],
-                    f"{record['max_time_ms']:.2f}",
-                    f"{record['cpu_time_ms']:.2f}",
-                    f"{record['mem_growth_rss_kb']:.2f}",
-                    note_str
-                )
+                if check_external_lib(record['file']):
+                    package = get_package(record['file'])
+                    table.add_row(
+                        record["function"],
+                        f"{record['max_time_ms']:.2f}",
+                        f"{record['cpu_time_ms']:.2f}",
+                        f"{record['mem_growth_rss_kb']:.2f}",
+                        package,
+                        note_str
+                    )
+                else:
+                    table.add_row(
+                        record["function"],
+                        f"{record['max_time_ms']:.2f}",
+                        f"{record['cpu_time_ms']:.2f}",
+                        f"{record['mem_growth_rss_kb']:.2f}",
+                        "user_code",
+                        note_str
+                    )
 
             console.print(table)
