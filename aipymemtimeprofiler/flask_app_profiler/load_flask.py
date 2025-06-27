@@ -7,14 +7,35 @@ import types
 import inspect
 from flask import Flask
 from memory_profiler import memory_usage
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-sys.path.insert(0, ROOT_DIR)
 from aipymemtimeprofiler.flask_app_profiler.profiler import flask_profiler,display_functions_and_select
 from aipymemtimeprofiler.config.config import agentic_profiler
 from aipymemtimeprofiler.analyser.performance_analyser import collect_profiling_data,analyse_performance
+import ast
+
+def check_flask_app(filepath):
+    with open(filepath, "r") as f:
+        tree = ast.parse(f.read(), filename=filepath)
+
+    imports_flask = any(
+        isinstance(node, ast.ImportFrom) and node.module == "flask"
+        for node in tree.body
+    )
+
+    defines_app = any(
+        isinstance(node, ast.Assign)
+        and any(
+            isinstance(target, ast.Name) and target.id == "app"
+            for target in node.targets
+        )
+        for node in tree.body
+    )
+
+    return imports_flask and defines_app
 
 def load_flask_app(app_path):
     try:
+        if check_flask_app(app_path) == False:
+            return None,None
         app_path = os.path.abspath(app_path)
         app_dir = os.path.dirname(app_path)
         module_name = os.path.splitext(os.path.basename(app_path))[0]
