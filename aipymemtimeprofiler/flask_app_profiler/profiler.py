@@ -13,9 +13,9 @@ from rich.table import Table
 import json
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
-from src.config.config import agentic_profiler,INCLUDE_LIBRARIES
-from src.analyser.performance_analyser import collect_profiling_data,analyse_performance
-from src.helpers.helper import check_external_functions,get_all_args,check_external_lib,get_package
+from aipymemtimeprofiler.config.config import agentic_profiler,INCLUDE_LIBRARIES
+from aipymemtimeprofiler.analyser.performance_analyser import collect_profiling_data,analyse_performance
+from aipymemtimeprofiler.helpers.helper import check_external_functions,get_all_args,check_external_lib,get_package
 process = psutil.Process(os.getpid())
 
 def display_functions_and_select(functions_with_files):
@@ -72,7 +72,7 @@ class flask_profiler:
         if check_external_functions(func_name,code.co_filename):
             return
         if check_external_functions(func_name,code.co_filename):
-            if INCLUDE_LIBRARIES and check_external_lib(code.co_filename):
+            if INCLUDE_LIBRARIES == "True" and check_external_lib(code.co_filename):
                 external_lib = True
             else:
                 return
@@ -174,7 +174,10 @@ class flask_profiler:
         return local_trace
     
     
-    def write_output(self, output_file="profile_output.json"):
+    def write_output(self, output_file_name="profile_output.json"):
+        
+        current_dir = os.getcwd()
+        output_file = current_dir+"/profile_output.json"
         def safe_serialize(obj):
             try:
                 json.dumps(obj)
@@ -194,7 +197,7 @@ class flask_profiler:
 
         print(f" Wrote {len(cleaned_records)} records to {output_file}")
         if self.console_display:
-            print(f"\n[bold green]✅ Profile results written to[/bold green] [cyan]{output_file}[/cyan]")
+            # print(f"\n[bold green]✅ Profile results written to[/bold green] [cyan]{output_file}[/cyan]")
             console = Console()
             console.rule("[bold yellow]📊 Profiling Summary[/bold yellow]")
             table = Table(show_header=True, header_style="bold magenta", title="Function Profile Overview")

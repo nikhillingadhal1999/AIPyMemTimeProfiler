@@ -1,0 +1,3 @@
+[console_scripts]
+profile_code = aipymemtimeprofiler.executable.execute:run_with_profiler
+profile_graph = aipymemtimeprofiler.vizualization.viz:main

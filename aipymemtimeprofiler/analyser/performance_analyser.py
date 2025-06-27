@@ -5,8 +5,8 @@ import re
 import sys
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
-from src.analyser.function_extract import extract_function_from_file
-from src.config.config import OLLAMA_MODEL
+from aipymemtimeprofiler.analyser.function_extract import extract_function_from_file
+from aipymemtimeprofiler.config.config import OLLAMA_MODEL
 
 
 def connect_to_ollama():
@@ -68,8 +68,9 @@ def send_analysis_request(code):
 
 
 def collect_profiling_data():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.normpath(os.path.join(script_dir, "..", "..", "profile_output.json"))
+    current_dir = os.getcwd()
+    file_path = current_dir + "/profile_output.json"
+    
     if not os.path.exists(file_path):
         print(f"Error: File not found at path '{file_path}'")
         return []

@@ -9,9 +9,9 @@ from flask import Flask
 from memory_profiler import memory_usage
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
-from src.flask_app_profiler.profiler import flask_profiler,display_functions_and_select
-from src.config.config import agentic_profiler
-from src.analyser.performance_analyser import collect_profiling_data,analyse_performance
+from aipymemtimeprofiler.flask_app_profiler.profiler import flask_profiler,display_functions_and_select
+from aipymemtimeprofiler.config.config import agentic_profiler
+from aipymemtimeprofiler.analyser.performance_analyser import collect_profiling_data,analyse_performance
 
 def load_flask_app(app_path):
     try:

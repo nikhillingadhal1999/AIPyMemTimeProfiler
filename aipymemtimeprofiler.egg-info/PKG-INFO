@@ -1,3 +1,39 @@
+Metadata-Version: 2.4
+Name: aipymemtimeprofiler
+Version: 1.0.6
+Summary: AI-enabled time and memory profiler for Python applications
+Home-page: https://github.com/nikhillingadhal1999/AIPyMemTimeProfiler
+Author: Nikhil Lingadhal
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: line_profiler==4.2.0
+Requires-Dist: psutil==7.0.0
+Requires-Dist: Pympler==1.1
+Requires-Dist: rich
+Requires-Dist: Flask
+Requires-Dist: memory_profiler
+Requires-Dist: setuptools
+Requires-Dist: wheel
+Requires-Dist: twine
+Requires-Dist: ollama
+Requires-Dist: packaging<25,>=23.2
+Requires-Dist: streamlit
+Requires-Dist: plotly
+Requires-Dist: pandas
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
 # Zero-Hassle AI Enabled Python Profiler for Time, Memory, return object size, cpu memory
 
 AIPyMemTimeProfiler is a zero-configuration, AI-assisted Python profiler that automatically captures function-level memory and time usage — without any code changes.

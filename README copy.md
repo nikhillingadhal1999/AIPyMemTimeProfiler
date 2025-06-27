@@ -1,100 +1,17 @@
-# Zero-Hassle AI Enabled Python Profiler for Time, Memory, return object size, cpu memory
+# Zero-Hassle AI Enabled Python Profiler for Time & Memory
 
-AIPyMemTimeProfiler is a zero-configuration, AI-assisted Python profiler that automatically captures function-level memory and time usage — without any code changes.
+AI enabled lightweight time and memory profiler for Python, zero-configuration python profiler that captures function-level performance metrics along with analysis of function implementation with AI Agent with **no code changes**. Ideal for:
 
-Powered by LLMs (like Ollama), it not only measures performance but also analyzes your functions for inefficiencies and memory leaks.
+- Python scripts  
+- Flask projects  
+- Real-time debugging of performance bottlenecks  
+
 ---
 
-## Key Features
+## Features
 
-**Zero code modifications** — No decorators or wrappers needed
-
-**AI-powered analysis** of selected functions
-
-**Function-level** metrics for time, memory, arguments, return object size
-
-**Smart project detection** — Profiles only your code, not external libraries
-
-**Structured JSON output** for automation or visualization
-
-**Optional profiling of third-party libraries**
-
-Supports **Flask apps**, CLI scripts, nested folder hierarchies
-
-### Visualize Performance with Interactive Graphs
-
-AIPyMemTimeProfiler includes a built-in Streamlit dashboard to visualize profiling data in a flamegraph-style format.
-
-What You Get
-
-- Multi-metric overview (time, memory, cpu time, return object size)
-
-- Horizontal flame-style charts
-
-- Interactive tooltips for every function
-
-- No extra config — just run and view
-
-
-### Installation
-    pip install aipymemtimeprofiler
-
-## Quick Start
-### 1. Set Environment Variables
-
-```bash
-export PROFILER_FILE_PATH="/absolute/path/to/your_script.py"
-export PROFILER_DIR_PATH="/absolute/path/to/your/project/root"
-```
-If you just want to try, you can test it with sample_project. 
-> `export PROFILER_FILE_PATH="$(pwd)/sample_project/inside/app.py"`: The Python file to be profiled  
-> `export PROFILER_DIR_PATH="$(pwd)/sample_project/inside"`: Root of your project for accurate filtering
-
-### CLI entry point
-    profile_code
-
-### Launch the Graph UI
-
-```bash
-profile_graph
-```
-
-### 2. If you want to verify 3rd party libraries
-
-```bash
-export INCLUDE_LIBRARIES=True
-```
-
-## LLM Environment Setup
-
-Download Ollama from 
-[Ollama](https://ollama.com/)
-
-```bash
-ollama run <yout_model>
-```
-If you don't know which model to use. 
-> `ollama run deepseek-r1:1.5b`: It is preferable as it is light weight. 
-
-Set your model env variable.
-```bash
-export AGENT_NAME="<your_model>"
-export AGENTIC_PROFILER=True
-```
-
-### TL;DR
-pip install aipymemtimeprofiler
-export PROFILER_FILE_PATH=./app.py
-export PROFILER_DIR_PATH=./
-profile_code
-
-You’ll be prompted to select a function to analyze. Example:
-
-| Index | Function         | File Path                 |
-| ----- | ---------------- | ------------------------- |
-| 0     | `calculate_data` | `/project/app/compute.py` |
-| 1     | `main`           | `/project/app/main.py`    |
-| N     | `Skip Analysis`  | -                         |
+### Zero Code Changes
+Just run your Python script — no decorators, annotations, or modifications needed.
 
 ### Time & Memory Metrics
 Automatically captures:
@@ -145,21 +62,79 @@ This is the table providing the options for analysis.
 
 
 ### Structured JSON Reports
-{
-  "function": "calculate_total",
-  "file": "/app/logic.py",
-  "line": 23,
-  "cpu_time_ms": 15.3,
-  "max_mem": 1024,
-  "mem_growth_rss_kb": 300,
-  "args": ["x", "y"],
-  "return_obj": 124,
-  "possible_memory_leak": false,
-  "note": ""
-}
+Each function includes:
+- Function name
+- Source file and line number
+- Time (ms)
+- Memory usage (KB)
+- Return object size
+- Arguments
+- Memory growth & potential leaks
 
 ### Works with Any Project Structure
 Handles **nested folder hierarchies** easily — just point to your project root and go.
+
+---
+
+## Setup Instructions
+
+### 1. Set Environment Variables
+
+```bash
+export PROFILER_FILE_PATH="/absolute/path/to/your_script.py"
+export PROFILER_DIR_PATH="/absolute/path/to/your/project/root"
+```
+If you just want to try, you can test it with sample_project. 
+> `export PROFILER_FILE_PATH="$(pwd)/sample_project/inside/app.py"`: The Python file to be profiled  
+> `export PROFILER_DIR_PATH="$(pwd)/sample_project/inside"`: Root of your project for accurate filtering
+
+### 2. Optional: Suppress Console Output
+
+By default, profiler prints a table to the console. To disable:
+
+```bash
+export CONSOLE_DISPLAY=False
+```
+### 3. If you want to verify 3rd party libraries
+
+```bash
+export INCLUDE_LIBRARIES=True
+```
+
+## Environment Setup
+
+This will install the requirements in your env
+
+If you **don't have a virtual environment**, just install the dependencies:
+
+```bash
+profile_code
+```
+
+This will create an env and install requirements
+
+## LLM Environment Setup
+
+Download Ollama from 
+[Ollama](https://ollama.com/)
+
+```bash
+ollama run <yout_model>
+```
+If you don't know which model to use. 
+> `ollama run deepseek-r1:1.5b`: It is preferable as it is light weight. 
+
+Set your model env variable.
+```bash
+export AGENT_NAME="<your_model>"
+export AGENTIC_PROFILER=True
+```
+
+This will:
+- Read the env vars
+- Launch your script
+- Record memory + execution stats
+- Save detailed JSON report
 
 ---
 
@@ -175,5 +150,19 @@ Handles **nested folder hierarchies** easily — just point to your project root
 
 - [ ] Console table toggle
 - [ ] HTML report output
+- [ ] Jupyter Notebook integration
 
 Pull requests are welcome!
+
+
+Create a true 1–2–3 Quick Start example at top of README.
+
+Highlight INCLUDE_LIBRARIES feature, AI analysis setup clearly.
+
+Document environment vars, CLI commands, default behaviors.
+
+Add support for HTML/Notebook outputs and quick benchmarking.
+
+Clarify supported platforms and Python versions.
+
+Encourage community involvement — add issues, PR templates, changelog.
