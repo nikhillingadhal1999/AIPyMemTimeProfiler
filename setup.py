@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="aipymemtimeprofiler",
-    version="1.0.8",
+    version="1.0.9",
     author="Nikhil Lingadhal",
     description="AI-enabled time and memory profiler for Python applications",
     long_description=open("README.md").read(),
