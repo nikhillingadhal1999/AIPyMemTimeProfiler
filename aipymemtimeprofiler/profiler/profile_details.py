@@ -59,7 +59,7 @@ class Profiler:
 
         if event == "call":
             # print("Return call : ",func_name)
-            # gc.collect()
+            gc.collect()
             print(f"[CALL] {func_name} at {code.co_filename}")
 
             all_args = get_all_args(frame)
@@ -97,7 +97,7 @@ class Profiler:
             duration = end_time - call_info["start_time"]
             cpu_time = end_cpu - call_info["start_cpu"]
             # print("GC clean : ",func_name)
-            # gc.collect()
+            gc.collect()
             end_snapshot = tracemalloc.take_snapshot()
             memory_diff = end_snapshot.compare_to(call_info["start_snapshot"], "lineno")
             total_mem = sum([stat.size_diff for stat in memory_diff])

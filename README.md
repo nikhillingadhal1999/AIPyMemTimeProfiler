@@ -40,7 +40,7 @@ What You Get
     pip install aipymemtimeprofiler
 
 ## Quick Start
-### 1. Set Environment Variables
+### 1. Set Environment Variables or pass arguments
 
 ```bash
 export PROFILER_FILE_PATH="/absolute/path/to/your_script.py"
@@ -52,6 +52,23 @@ If you just want to try, you can test it with sample_project.
 
 ### CLI entry point
     profile_code
+
+### OR pass arguments
+    ```bash
+    profile_code --file-path your_script.py --dir-path /your/output/dir
+    ```
+
+### Arguments 
+| Argument                    | Env Variable               | Description                                           | Default                                      |
+|----------------------------|----------------------------|-------------------------------------------------------|----------------------------------------------|
+| `-h, --help`               | –                          | Show this help message and exit                       | –                                            |
+| `--file-path FILE_PATH`    | `PROFILER_FILE_PATH`       | Path to the Python script to profile                  | `None`                                       |
+| `--dir-path DIR_PATH`      | `PROFILER_DIR_PATH`        | Working directory and output path                     | `./sample_project/inside`                   |
+| `--console-display`        | `CONSOLE_DISPLAY=True`     | Print profiling output to the console                 | `False`                                      |
+| `--agentic-profiler`       | `AGENTIC_PROFILER=True`    | Enable AI-based interactive profiling assistant       | `False`                                      |
+| `--ollama-model OLLAMA_MODEL` | `AGENT_NAME`            | LLM model name to use with the agentic profiler       | `deepseek-r1:1.5b`                           |
+| `--include-libraries`      | `INCLUDE_LIBRARIES=True`   | Include external libraries during profiling           | `False`                                      |
+| `--leak-threshold-kb LEAK_THRESHOLD_KB` | –             | Memory leak threshold in KB                           | `10`                                         |
 
 ### Launch the Graph UI
 
