@@ -54,9 +54,11 @@ If you just want to try, you can test it with sample_project.
     profile_code
 
 ### OR pass arguments
-    ```bash
-    profile_code --file-path your_script.py --dir-path /your/output/dir
-    ```
+```bash
+
+profile_code --file-path your_script.py --dir-path /your/output/dir
+
+```
 
 ### Arguments 
 | Argument                    | Env Variable               | Description                                           | Default                                      |
