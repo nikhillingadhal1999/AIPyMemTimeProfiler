@@ -5,7 +5,7 @@ AGENT_REQUIREMENTS_FILE = $(shell pwd)/agent_requirements.txt
 
 # Define the current working directory and executable path
 CURRENT_DIR := $(shell pwd)
-EXECUTE_PATH := $(CURRENT_DIR)/src/executable/execute.py
+EXECUTE_PATH := $(CURRENT_DIR)/aipymemtimeprofiler/executable/execute.py
 
 setup:
 	@if [ ! -d "$(ENV_NAME)" ]; then \

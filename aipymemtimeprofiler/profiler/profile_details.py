@@ -16,8 +16,8 @@ from rich.table import Table
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, ROOT_DIR)
-from src.helpers.helper import check_event, check_external_functions, get_all_args, is_user_code, detect_mem_leak,check_external_lib, get_package
-from src.config.config import file_path, dir_path,INCLUDE_LIBRARIES
+from aipymemtimeprofiler.helpers.helper import check_event, check_external_functions, get_all_args, is_user_code, detect_mem_leak,check_external_lib, get_package
+from aipymemtimeprofiler.config.config import file_path, dir_path,INCLUDE_LIBRARIES
 
 class Profiler:
     def __init__(self, root_path,console_display=True, leak_threshold_kb=3000):
@@ -44,7 +44,7 @@ class Profiler:
         func_name = code.co_name
 
         if check_external_functions(func_name,code.co_filename):
-            if INCLUDE_LIBRARIES and check_external_lib(code.co_filename):
+            if INCLUDE_LIBRARIES == "True" and check_external_lib(code.co_filename):
                 external_lib = True
             else:
                 return self.profile_func
@@ -58,7 +58,9 @@ class Profiler:
         key = (func_name, code.co_filename, frame.f_lineno)
 
         if event == "call":
+            # print("Return call : ",func_name)
             gc.collect()
+            print(f"[CALL] {func_name} at {code.co_filename}")
 
             all_args = get_all_args(frame)
             key = (func_name, code.co_filename, frame.f_lineno,' '.join(all_args.keys()))
@@ -75,9 +77,8 @@ class Profiler:
                 "mem_start": mem_start
             }
 
-            # print(f"[CALL] {func_name} at {code.co_filename}")
-
         elif event == "return" and frame in self.call_stack:
+            print("Return call : ",func_name)
             all_args = get_all_args(frame)
             key = (func_name, code.co_filename, frame.f_lineno,' '.join(all_args.keys()))
             code_obj = frame.f_code
@@ -95,6 +96,7 @@ class Profiler:
 
             duration = end_time - call_info["start_time"]
             cpu_time = end_cpu - call_info["start_cpu"]
+            # print("GC clean : ",func_name)
             gc.collect()
             end_snapshot = tracemalloc.take_snapshot()
             memory_diff = end_snapshot.compare_to(call_info["start_snapshot"], "lineno")
@@ -143,14 +145,16 @@ class Profiler:
 
         return self.profile_func
 
-    def write_output(self, output_file="profile_output.json"):
-
+    def write_output(self, output_filename="profile_output.json"):
+        current_dir = os.getcwd()
+        output_file = current_dir+"/profile_output.json"
+        
         output = list(self.records.values())
         with open(output_file, "w") as f:
             json.dump(output, f, indent=2)
         
         if self.console_display:
-            print(f"\n[bold green]✅ Profile results written to[/bold green] [cyan]{output_file}[/cyan]")
+            # print(f"\n[bold green]✅ Profile results written to[/bold green] [cyan]{output_file}[/cyan]")
             console = Console()
             console.rule("[bold yellow]📊 Profiling Summary[/bold yellow]")
             table = Table(show_header=True, header_style="bold magenta", title="Function Profile Overview")

@@ -34,6 +34,5 @@ def main_mem():
     leaky_function()
     fast_function()
     slow_function()
-    read_file()
 
 main_mem()
