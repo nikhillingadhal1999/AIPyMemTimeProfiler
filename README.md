@@ -2,7 +2,7 @@
 
 AIPyMemTimeProfiler is a zero-configuration, AI-assisted Python profiler that automatically captures function-level memory and time usage — without any code changes.
 
-Powered by LLMs (like Ollama), it not only measures performance but also analyzes your functions for inefficiencies and memory leaks.
+Powered by LLMs, it not only measures performance but also analyzes your functions for inefficiencies and memory leaks.
 ---
 
 ## Key Features
